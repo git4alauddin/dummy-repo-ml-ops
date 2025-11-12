@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iris-deployment
+spec:
+  replicas: 2 # Start with 2 copies of our app
+  selector:
+    matchLabels:
+      app: iris-app
+  template:
+    metadata:
+      labels:
+        app: iris-app
+    spec:
+      containers:
+      - name: iris-service-container
+        # IMPORTANT: Replace your-gcp-project-id with your actual project ID
+        image: us-central1-docker.pkg.dev/your-gcp-project-id/ml-apps/iris-service:latest
+        ports:
+        - containerPort: 8000
+        readinessProbe: # Is it ready for traffic?
+          httpGet:
+            path: /ready_check
+            port: 8000
+          initialDelaySeconds: 10 # Wait 10s before first check
+          periodSeconds: 10
+        livenessProbe: # Is it still running?
+          httpGet:
+            path: /live_check
+            port: 8000
+          initialDelaySeconds: 20
+          periodSeconds: 20
+

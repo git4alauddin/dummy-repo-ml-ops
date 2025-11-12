@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+pydantic
+scikit-learn
+joblib
+numpy
+opentelemetry-exporter-gcp-trace

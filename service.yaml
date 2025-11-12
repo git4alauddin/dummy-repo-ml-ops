@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: iris-loadbalancer
+spec:
+  type: LoadBalancer # This creates a public IP address
+  selector:
+    app: iris-app
+  ports:
+  - protocol: TCP
+    port: 80 # The public port
+    targetPort: 8000 # The container's port
+
